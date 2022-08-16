@@ -31,7 +31,7 @@ app.use(expressLayouts);
 app.use(cors())
 app.use(express.json())
 
-
+// Logging
 if(process.env.NODE_ENV === 'development'){
     app.use(morgon('dev'))
 }
@@ -72,7 +72,6 @@ app.use('/', require('./server/routes/index.js'))
 //app.use('/', routes);
 app.use('/auth', require('./server/routes/auth.js'));
 app.use('/students', require('./server/routes/studentDatabaseRoutes.js'))
-
 
 // Port to listen
 app.listen(port, () => console.log(`Listening to port ${port}`))

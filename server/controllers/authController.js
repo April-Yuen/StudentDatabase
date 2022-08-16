@@ -3,7 +3,7 @@
 // const User = require('../models/User')
 
 // @desc Auth with Google
-// @route Get/auth/google
+//  @route Get/auth/google
 // exports.authGoogle = passport.authenticate('google', {scope: ['profile']})
 
 // // @desc Google auth callback

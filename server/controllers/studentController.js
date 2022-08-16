@@ -7,8 +7,8 @@ const Student = require('../models/Student')
 exports.homepage = async(req, res) => {
     try {
         const limitNumber = 10
-        const students = await Student.find({}).limit(limitNumber)
-        res.render('index', {title: 'Student Info- Home', students} );
+        const students = await Student.find({user: req.user.id}).limit(limitNumber).lean()
+        res.render('index', {title: 'Student Info- Home', students, name: req.user.firstName} );
     }catch(error){
         res.status(500).send({message: error.message || "Error Occured"})
     }
