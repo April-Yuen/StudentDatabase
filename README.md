@@ -1,5 +1,5 @@
 ## Barcode: <a href="#">Live Demo</a>
-<a href="#" target="_blank"><img src="img/teacherNotebook.png" /></a>
+<a href="#" target="_blank"><img src="public/img/teacherNotebook.png" /></a>
 
 ## How It's Made:
 
