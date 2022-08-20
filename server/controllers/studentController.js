@@ -1,45 +1,39 @@
-const { AutoEncryptionLoggerLevel } = require('mongodb')
+// const { AutoEncryptionLoggerLevel } = require('mongodb')
 const Student = require('../models/Student')
-
-// GET /
-// Homepage
-
-exports.homepage = async(req, res) => {
-    try {
-        const limitNumber = 10
-        const students = await Student.find({user: req.user.id}).limit(limitNumber).lean()
-        res.render('index', {title: 'Student Info- Home', students, name: req.user.firstName} );
-    }catch(error){
-        res.status(500).send({message: error.message || "Error Occured"})
-    }
-}
+const moment = require('moment')
+const { request } = require('express')
 
 
 //get-Submit student
 exports.submitStudent = async(req, res) =>{
     const infoErrorsObj = req.flash('infoErrors')
     const infoSubmitObj = req.flash('infoSubmit')
-    res.render('submit-student', {title: 'Student Info - Submit Student', infoErrorsObj, infoSubmitObj})
+    res.render('students/submit-student', {title: 'Student Info - Submit Student', infoErrorsObj, infoSubmitObj})
 }
 
 //post Student
 exports.submitStudentOnPost = async(req, res) =>{
 
     try{
+        req.body.user = req.user._id
         const newStudent = new Student({
             name: req.body.name,
             phone_number: req.body.phone,
             email: req.body.email,
             date: req.body.date,
-            description: req.body.description
+            description: req.body.description,
+            user: req.body.user
+        
         })
         await newStudent.save();
+        console.log(newStudent)
 
         req.flash('infoSubmit', 'Student has been added.')
-        res.redirect('/submit-student') 
+        res.redirect('/students/submit-student') 
     }catch(error){
         req.flash('infoErrors', error)
-        res.redirect('/submit-student') 
+        console.log(error)
+        res.redirect('/students/submit-student') 
     }
 }
 
@@ -50,7 +44,7 @@ exports.editStudent = async(req, res) => {
         let studentId = req.params.id
         limitNumber=1
         let studentById = await Student.findById({_id: studentId}).limit(limitNumber)
-        res.render('edit-student', {title: "Student Info-Edit", studentById})
+        res.render('students/edit-student', {title: "Student Info-Edit", studentById})
     }catch(error){
         res.status(500).send({message: error.message || "Error Occurred"})
     }
@@ -60,18 +54,21 @@ exports.editStudent = async(req, res) => {
 //Edit Student on Post
 exports.editStudentOnPost = async(req,res) => {
     try{
+        req.body.user = req.body._id
         let studentId = req.params.id
         let studentById = await Student.findByIdAndUpdate({_id: studentId},{$set: {            
             name: req.body.name,
             phone_number: req.body.phone,
             email: req.body.email,
             date: req.body.date, 
-            description: req.body.description}})
+            description: req.body.description,
+            user: req.body.user
+        }})
             req.session.message = {
                 type: 'success',
                 message: 'User updated successfully.'
             }
-            res.redirect("/")
+            res.redirect("/dashboard")
             console.log(studentById)
     }catch(error){
         res.status(500).send({message: error.message || "Error Occurred"})
@@ -103,7 +100,7 @@ exports.deleteStudent = async(req,res) =>{
             type: 'success',
             message: 'User deleted.'
         }
-        res.redirect('/')
+        res.redirect('/dashboard')
     }catch(error){
         res.status(500).send({message: error.message || "Error Occured"})
     }

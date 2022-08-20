@@ -8,7 +8,8 @@ const passport = require('passport')
 const flash = require('connect-flash')
 const dotenv = require('dotenv')
 const cors = require('cors');
-// const MongoStore = require('connect-mongo')
+const moment = require('moment');
+const MongoStore = require('connect-mongo')
 const connectDB = require('./config/db');
 
 
@@ -25,7 +26,7 @@ require('./config/passport')(passport)
 connectDB()
 
 // Middleware to use files and take care of errors
-app.use(express.urlencoded( {extended: true} ))
+app.use(express.urlencoded( {extended: false} ))
 app.use(express.static('public'));
 app.use(expressLayouts);
 app.use(cors())
@@ -36,12 +37,12 @@ if(process.env.NODE_ENV === 'development'){
     app.use(morgon('dev'))
 }
 // Middlware to save data and cooke sessions
-// This this later b/c this is different from what Traversy did. 
 app.use(cookieParser('StudentDatabaseSecure'));
 app.use(session({
     secret: "StudentDatabaseSecretSession",
     saveUninitialized: false,
-    resave: false
+    resave: false,
+    store: MongoStore.create({mongoUrl: process.env.MONGODB_URI})
 }));
 
 
@@ -60,9 +61,15 @@ app.use((req, res, next) => {
 app.use(flash());
 app.use(fileUpload());
 
+// Middleware for moment
+app.use((req, res, next) =>{
+    res.locals.moment = moment;
+    next();
+});
+
 // use the layouts package and views for the files. 
 app.set('layout', './layouts/main');
-app.set('layout', './layouts/login')
+// app.set('layout', './layouts/login')
 app.set('view engine','ejs' )
 
 // Bring in the routes file so that it can be exported.

@@ -8,6 +8,6 @@ const Student = require('../models/Student')
 // @desc login/landing page
 // @route GET/
 router.get('/', ensureGuest, indexController.getLogin)
-// router.get('/students/index', indexcontroller.getDatabase)
+router.get('/dashboard', ensureAuth, indexController.getDatabase)
 
 module.exports = router;

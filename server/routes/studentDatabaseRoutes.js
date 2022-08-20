@@ -5,12 +5,12 @@ const {ensureAuth, ensureGuest} = require('../middleware/auth')
 
 // App Routes
 
-router.get('/', ensureAuth, studentController.homepage);
+// router.get('/', ensureAuth, studentController.homepage);
 router.post('/search', studentController.searchStudent)
-router.get('/submit-student', studentController.submitStudent)
-router.post('/submit-student', studentController.submitStudentOnPost)
-router.get('/delete-student/:id', studentController.deleteStudent)
-router.get('/edit-student/:id', studentController.editStudent)
-router.post('/edit-student/:id', studentController.editStudentOnPost)
+router.get('/submit-student', ensureAuth, studentController.submitStudent)
+router.post('/submit-student', ensureAuth, studentController.submitStudentOnPost)
+router.get('/delete-student/:id', ensureAuth, studentController.deleteStudent)
+router.get('/edit-student/:id', ensureAuth, studentController.editStudent)
+router.post('/edit-student/:id', ensureAuth, studentController.editStudentOnPost)
 
 module.exports = router;
