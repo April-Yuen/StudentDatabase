@@ -14,7 +14,7 @@ const connectDB = require('./config/db');
 
 
 const app = express()
-const port = process.env.PORT || 3050
+const PORT = process.env.PORT || 3050
 
 // Environment variables
 dotenv.config({path: './config/config.env'})
@@ -81,4 +81,4 @@ app.use('/auth', require('./server/routes/auth.js'));
 app.use('/students', require('./server/routes/studentDatabaseRoutes.js'))
 
 // Port to listen
-app.listen(port, () => console.log(`Listening to port ${port}`))
+app.listen(PORT, () => console.log(`Listening to port ${PORT}`))
