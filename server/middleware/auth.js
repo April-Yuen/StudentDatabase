@@ -8,7 +8,7 @@ module.exports = {
     },
     ensureGuest: function(req, res, next) {
         if(req.isAuthenticated()){
-            res.redirect('/students/index')
+            res.redirect('/dashboard')
         }else{
             return next()
         }
