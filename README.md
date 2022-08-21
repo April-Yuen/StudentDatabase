@@ -1,5 +1,5 @@
-## Barcode: <a href="#">Live Demo</a>
-<a href="#" target="_blank"><img src="public/img/teacherNotebook.png" /></a>
+## Barcode: <a href="https://teacher-notebook-database.herokuapp.com/">Live Demo</a>
+<a href="https://teacher-notebook-database.herokuapp.com/" target="_blank"><img src="public/img/teacherNotebook.png" /></a>
 
 ## How It's Made:
 
