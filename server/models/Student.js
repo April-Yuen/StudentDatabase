@@ -7,11 +7,11 @@ const studentSchema = new mongoose.Schema({
     },
     phone_number: {
         type: String, 
-        required: "This field is required."
+        required: false
     },
     email: {
         type: String,
-        required:"This field is required."
+        required: false
     },
     date: {
         type: Date, 
